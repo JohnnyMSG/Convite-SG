@@ -205,29 +205,29 @@
 }
 
 .hero__corner--tl {
-  top: clamp(14px, 3vw, 38px);
-  left: clamp(14px, 3vw, 38px);
-  width: min(38vw, 380px);
+  top: clamp(0px, 0.6vw, 10px);
+  left: clamp(0px, 0.6vw, 10px);
+  width: min(44vw, 460px);
   transform: scaleX(-1);
 }
 
 .hero__corner--tr {
-  top: clamp(14px, 3vw, 38px);
-  right: clamp(14px, 3vw, 38px);
-  width: min(38vw, 380px);
+  top: clamp(0px, 0.6vw, 10px);
+  right: clamp(0px, 0.6vw, 10px);
+  width: min(44vw, 460px);
 }
 
 .hero__corner--bl {
-  bottom: clamp(14px, 3vw, 38px);
-  left: clamp(14px, 3vw, 38px);
-  width: min(34vw, 340px);
+  bottom: clamp(0px, 0.6vw, 10px);
+  left: clamp(0px, 0.6vw, 10px);
+  width: min(40vw, 410px);
   transform: scale(-1, -1);
 }
 
 .hero__corner--br {
-  bottom: clamp(14px, 3vw, 38px);
-  right: clamp(14px, 3vw, 38px);
-  width: min(34vw, 340px);
+  bottom: clamp(0px, 0.6vw, 10px);
+  right: clamp(0px, 0.6vw, 10px);
+  width: min(40vw, 410px);
   transform: scaleY(-1);
 }
 
