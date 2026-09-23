@@ -10,6 +10,7 @@ const WEDDING_DATE = new Date('2026-11-22T16:00:00-03:00').getTime();
 })
 export class App implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('envelopeOverlay') private readonly envelopeOverlay?: ElementRef<HTMLElement>;
+  @ViewChild('bgMusic') private readonly bgMusic?: ElementRef<HTMLAudioElement>;
 
   protected readonly showOverlay = signal(true);
   protected readonly envelopeOpened = signal(false);
@@ -25,6 +26,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
   private opening = false;
   private countdownTimer?: ReturnType<typeof setInterval>;
   private openTimers: ReturnType<typeof setTimeout>[] = [];
+  private musicFadeTimer?: ReturnType<typeof setInterval>;
 
   constructor(private readonly elementRef: ElementRef<HTMLElement>) {}
 
@@ -42,6 +44,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.countdownTimer);
+    clearInterval(this.musicFadeTimer);
     this.openTimers.forEach((timer) => clearTimeout(timer));
     document.body.style.overflow = '';
   }
@@ -52,6 +55,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
     }
     this.opening = true;
     this.envelopeOpened.set(true);
+    this.fadeInMusic();
 
     this.openTimers.push(
       setTimeout(() => window.scrollTo(0, 0), 1100),
@@ -67,6 +71,26 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
       event.preventDefault();
       this.openEnvelope();
     }
+  }
+
+  private fadeInMusic(duration = 4000, targetVolume = 1): void {
+    const audio = this.bgMusic?.nativeElement;
+    if (!audio) {
+      return;
+    }
+    audio.volume = 0;
+    audio.play().catch(() => {});
+
+    const steps = 40;
+    const stepTime = duration / steps;
+    let step = 0;
+    this.musicFadeTimer = setInterval(() => {
+      step++;
+      audio.volume = Math.min(targetVolume, (targetVolume / steps) * step);
+      if (step >= steps) {
+        clearInterval(this.musicFadeTimer);
+      }
+    }, stepTime);
   }
 
   private pad(value: number): string {
