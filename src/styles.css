@@ -3,7 +3,7 @@
 html,
 body {
   margin: 0;
-  background: #f4efe6;
+  background: #faf7ee;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Edge legacy */
 }
@@ -24,10 +24,10 @@ body::-webkit-scrollbar {
 }
 
 a {
-  color: #a97c50;
+  color: #41521f;
   text-decoration: none;
 }
 
 a:hover {
-  color: #8a6640;
+  color: #6b7a44;
 }

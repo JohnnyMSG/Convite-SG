@@ -1,241 +1,190 @@
-<div class="page amf-sans">
+<div class="invite">
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a href="#" class="nav__brand">
-      <img src="assets/logo.png" alt="Matt Filmes" class="nav__brand-img">
-    </a>
-
-    <button
-      type="button"
-      class="nav__toggle"
-      [class.nav__toggle--open]="menuOpen()"
-      (click)="toggleMenu()"
-      [attr.aria-expanded]="menuOpen()"
-      aria-controls="nav-links"
-      aria-label="Abrir menu"
+  @if (showOverlay()) {
+    <div
+      #envelopeOverlay
+      class="envelope"
+      [class.envelope--opening]="envelopeOpened()"
+      role="button"
+      tabindex="0"
+      aria-label="Abrir convite"
+      (click)="openEnvelope()"
+      (keydown)="onEnvelopeKey($event)"
     >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <div class="envelope__bg"></div>
+      <p class="envelope__caption">Você recebeu um convite</p>
 
-    <div id="nav-links" class="nav__links" [class.nav__links--open]="menuOpen()">
-      <a href="#sobre" class="nav__link" (click)="closeMenu()">SOBRE</a>
-      <a href="#trabalhos" class="nav__link" (click)="closeMenu()">TRABALHOS</a>
-      <a href="#pacotes" class="nav__link" (click)="closeMenu()">PACOTES</a>
-      <a href="#depoimentos" class="nav__link" (click)="closeMenu()">DEPOIMENTOS</a>
-      <a href="#contato" class="nav__link" (click)="closeMenu()">CONTATO</a>
+      <div class="envelope__wrap">
+        <div class="envelope__box">
+          <div class="envelope__back"></div>
+          <div class="envelope__body"></div>
+          <div class="envelope__shadow"></div>
+          <div class="envelope__flap"></div>
+          <div class="envelope__seal">
+            <span class="envelope__seal-ring">
+              <img src="assets/selo-monograma.png" alt="S &amp; G" class="envelope__seal-img">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <p class="envelope__hint">Toque para abrir</p>
     </div>
-  </nav>
+  }
 
-  <!-- HERO -->
-  <section class="hero">
-    <img ngSrc="assets/fotoInicial.png" alt="Casal ao pôr do sol" class="hero__img" height="399" width="867" priority>
-    <div class="hero__overlay"></div>
+  <section class="hero" [class.hero--ready]="!showOverlay() || envelopeOpened()">
+    <div class="hero__corner hero__corner--tl"><img src="assets/borda.png" alt="" class="hero__corner-img"></div>
+    <div class="hero__corner hero__corner--tr"><img src="assets/borda.png" alt="" class="hero__corner-img"></div>
+    <div class="hero__corner hero__corner--bl"><img src="assets/borda.png" alt="" class="hero__corner-img"></div>
+    <div class="hero__corner hero__corner--br"><img src="assets/borda.png" alt="" class="hero__corner-img"></div>
+
     <div class="hero__content">
-      <div class="hero__eyebrow amf-serif">FILMES DE CASAMENTO</div>
-      <div class="hero__title amf-serif">Histórias reais,<br>contadas com emoção.</div>
-      <div class="hero__text">Um olhar autêntico para os momentos que fazem do seu casamento único — sem poses forçadas, só naturalidade.</div>
-      <a href="https://wa.me/5564993422296?text=Ol%C3%A1!%20Vim%20atrav%C3%A9s%20do%20seu%20site%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20seu%20trabalho%20de%20filmmaker." class="hero__cta">SOLICITAR ORÇAMENTO</a>
+      <img src="assets/monograma-verde.png" alt="S &amp; G" class="hero__monogram">
+
+      <p class="hero__verse">
+        “O amor é paciente, o amor é bondoso… tudo sofre, tudo crê, tudo espera, tudo suporta.”<br>
+        — 1 Coríntios 13:4-7
+      </p>
+
+      <p class="hero__blessing">Com a bênção de Deus e seus pais,</p>
+
+      <h1 class="hero__names">Samyra <span class="hero__amp">&amp;</span> Germano</h1>
+
+      <p class="hero__invite">Convidam para a cerimônia religiosa de seu casamento em</p>
+
+      <div class="hero__datebox">
+        <p class="hero__date">22 . 11 . 2026 <span class="hero__date-sep">|</span> 16H00</p>
+      </div>
+
+      <p class="hero__venue">Anna Jacintha Eventos<br>Araxá – MG</p>
+    </div>
+
+    <div class="hero__scroll">
+      <span>Role para ver mais</span>
+      <span class="hero__scroll-line"></span>
     </div>
   </section>
 
-  <!-- PILARES -->
-  <section class="pillars">
-    <div class="pillar reveal">
-      <div class="pillar__title amf-serif">NATURALIDADE</div>
-      <div class="pillar__text">Sorrisos e reações espontâneas</div>
+  <section class="countdown">
+    <div class="countdown__head reveal">
+      <span class="countdown__label">Contagem regressiva</span>
+      <h2 class="countdown__title">Até o nosso sim</h2>
     </div>
-    <div class="pillar reveal">
-      <div class="pillar__title amf-serif">DETALHES</div>
-      <div class="pillar__text">Cada elemento do seu dia, registrado</div>
+    <div class="countdown__grid">
+      <div class="countdown__unit reveal">
+        <span class="countdown__value">{{ days() }}</span>
+        <span class="countdown__unit-label">dias</span>
+      </div>
+      <div class="countdown__unit reveal" style="--reveal-step: 1">
+        <span class="countdown__value">{{ hours() }}</span>
+        <span class="countdown__unit-label">horas</span>
+      </div>
+      <div class="countdown__unit reveal" style="--reveal-step: 2">
+        <span class="countdown__value">{{ minutes() }}</span>
+        <span class="countdown__unit-label">minutos</span>
+      </div>
+      <div class="countdown__unit reveal" style="--reveal-step: 3">
+        <span class="countdown__value">{{ seconds() }}</span>
+        <span class="countdown__unit-label">segundos</span>
+      </div>
     </div>
-    <div class="pillar reveal">
-      <div class="pillar__title amf-serif">AUTENTICIDADE</div>
-      <div class="pillar__text">Emoções reais, sem encenação</div>
+    <p class="countdown__footnote reveal">Domingo, 22 de novembro de 2026 · 16h00</p>
+  </section>
+
+  <section class="historia">
+    <div class="historia__photo reveal">
+      <img src="assets/galeria/foto4.jpg" alt="Samyra e Germano">
+    </div>
+    <div class="historia__text reveal" style="--reveal-step: 1">
+      <h2 class="historia__title">Nossa história</h2>
+      <p>Foi Deus quem escreveu cada encontro até aqui. De uma amizade cuidadosa nasceu um amor que aprendeu a ser paciente, a perdoar e a esperar — e que agora pede a bênção do altar.</p>
+      <p>Queremos você perto de nós no dia em que dissermos “sim” diante de Deus e das pessoas que amamos. Sua presença é a nossa maior alegria.</p>
+      <p class="historia__signature">Samyra &amp; Germano</p>
     </div>
   </section>
 
-  <!-- SOBRE -->
-  <section id="sobre" class="about">
-    <div class="about__row reveal">
-      <div class="about__photo">
-        <img src="assets/fotoFilmMaker.png" alt="Retrato do filmmaker" class="about__photo-img">
+  <section class="local">
+    <div class="local__inner">
+      <div class="local__text reveal">
+        <span class="local__label">Cerimônia &amp; recepção</span>
+        <h2 class="local__title">Onde diremos sim</h2>
+        <p class="local__venue">Anna Jacintha Eventos<br>Araxá – Minas Gerais</p>
+        <p class="local__detail">Domingo, 22 de novembro de 2026, às 16h00.<br>Pedimos que chegue com 30 minutos de antecedência.</p>
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Anna+Jacintha+Eventos+Arax%C3%A1+MG"
+          target="_blank"
+          rel="noopener"
+          class="local__cta"
+        >Abrir no mapa</a>
       </div>
-      <div class="about__content">
-        <div class="about__eyebrow amf-serif">QUEM SOU EU</div>
-        <div class="about__title amf-serif">Mais de 5 anos transformando casamentos em memórias em vídeo.</div>
-        <div class="about__text">Já registrei histórias em diversas cidades do Brasil, e atendo casais em qualquer lugar do país. Acredito que cada detalhe tem valor e gosto de trabalhar de forma leve, sem forçar nada — deixando o dia fluir naturalmente.</div>
-        <div class="about__text">Meu estilo é captar a essência das pessoas e das emoções reais. O que me move é ver o casal se reconhecendo no vídeo, revivendo cada instante.</div>
-        <div class="about__quote">É mais que um trabalho, é registrar histórias.</div>
-      </div>
-    </div>
-
-    <div class="about__gallery">
-      <div class="about__gallery-item reveal">
-        <img src="assets/cerimonia.png" alt="Cerimônia" class="about__gallery-img">
-      </div>
-      <div class="about__gallery-item reveal">
-        <img src="assets/frenteIgreja.png" alt="Bastidores" class="about__gallery-img">
-      </div>
-      <div class="about__gallery-item reveal">
-        <img src="assets/noiva.png" alt="Noiva" class="about__gallery-img">
-      </div>
-      <div class="about__gallery-item reveal">
-        <img src="assets/natureza.png" alt="Detalhe" class="about__gallery-img">
-      </div>
-    </div>
-  </section>
-
-  <!-- TRABALHOS / GALERIA -->
-  <section id="trabalhos" class="portfolio">
-    <div class="portfolio__header reveal">
-      <div class="portfolio__eyebrow amf-serif">PORTFÓLIO</div>
-      <div class="portfolio__title amf-serif">Alguns momentos que já registrei</div>
-    </div>
-    <div class="portfolio__grid">
-      <div class="portfolio__grid-item portfolio__grid-item--tall reveal">
-        <img src="assets/ponte.png" alt="Casal no campo" class="portfolio__grid-img">
-      </div>
-      <div class="portfolio__grid-item reveal">
-        <img src="assets/alianca.png" alt="Festa" class="portfolio__grid-img">
-      </div>
-      <div class="portfolio__grid-item reveal">
-        <img src="assets/barco.png" alt="Pré wedding" class="portfolio__grid-img">
-      </div>
-      <div class="portfolio__grid-item reveal">
-        <img src="assets/prewedding.png" alt="Alianças" class="portfolio__grid-img">
-      </div>
-      <div class="portfolio__grid-item reveal">
-        <img src="assets/oracao.png" alt="Igreja" class="portfolio__grid-img">
-      </div>
-    </div>
-  </section>
-
-  <!-- PACOTES -->
-  <section id="pacotes" class="packages">
-    <div class="packages__header reveal">
-      <div class="packages__eyebrow amf-serif">PACOTES</div>
-      <div class="packages__title amf-serif">O que está incluso</div>
-      <div class="packages__intro">Sempre com gravadores de áudio profissionais, câmeras em 4K e drone, para que cada detalhe do seu casamento tenha a mesma qualidade da emoção vivida no dia.</div>
-    </div>
-
-    <div class="packages__grid">
-      <a href="https://wa.me/5564993422296?text=Ol%C3%A1!%20Gostei%20do%20plano%20Essencial%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener" class="package-card reveal">
-        <img src="https://placehold.co/360x240/6b7d6f/e8e2d5?text=FOTO+-+CERIM%C3%94NIA" alt="Pacote Essencial" class="package-card__img">
-        <div class="package-card__body">
-          <div class="package-card__title amf-serif">ESSENCIAL</div>
-          <div class="package-card__divider"></div>
-          <ul class="package-card__list">
-            <li>Vídeo dos principais momentos da cerimônia</li>
-            <li>Filme com no mínimo 15 minutos</li>
-            <li>Teaser de 1min30 para redes sociais</li>
-          </ul>
-        </div>
-      </a>
-      <a href="https://wa.me/5564993422296?text=Ol%C3%A1!%20Gostei%20do%20plano%20Cl%C3%A1ssico%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener" class="package-card reveal">
-        <img src="https://placehold.co/360x240/8a7a54/e8e2d5?text=FOTO+-+FESTA" alt="Pacote Clássico" class="package-card__img">
-        <div class="package-card__body">
-          <div class="package-card__title amf-serif">CLÁSSICO</div>
-          <div class="package-card__divider"></div>
-          <ul class="package-card__list">
-            <li>Vídeo: Making of, cerimônia e festa</li>
-            <li>Filme com no mínimo 15 minutos</li>
-            <li>Teaser de 1min30 para redes sociais</li>
-            <li>Entrega via link digital</li>
-          </ul>
-        </div>
-      </a>
-      <a href="https://wa.me/5564993422296?text=Ol%C3%A1!%20Gostei%20do%20plano%20Completo%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener" class="package-card package-card--featured reveal">
-        <div class="package-card__badge">MAIS ESCOLHIDO</div>
-        <img src="https://placehold.co/360x240/3b352b/d8cdb8?text=FOTO+-+PR%C3%89+WEDDING" alt="Pacote Completo" class="package-card__img">
-        <div class="package-card__body">
-          <div class="package-card__title amf-serif">COMPLETO</div>
-          <div class="package-card__divider"></div>
-          <ul class="package-card__list">
-            <li>Vídeo: Pré-wedding, making of, cerimônia e festa</li>
-            <li>Cerimônia completa, sem cortes</li>
-            <li>Filme com no mínimo 15 minutos</li>
-            <li>Teaser de 1min30 para redes sociais</li>
-            <li>Entrega via link digital</li>
-          </ul>
-        </div>
-      </a>
-      <a href="https://wa.me/5564993422296?text=Ol%C3%A1!%20Gostei%20do%20plano%20Premium%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener" class="package-card reveal">
-        <img src="https://placehold.co/360x240/4a4235/e8e2d5?text=FOTO+-+DRONE" alt="Pacote Premium" class="package-card__img">
-        <div class="package-card__body">
-          <div class="package-card__title amf-serif">PREMIUM</div>
-          <div class="package-card__divider"></div>
-          <ul class="package-card__list">
-            <li>Pré-wedding, making of, cerimônia e festa</li>
-            <li>Cerimônia completa, sem cortes</li>
-            <li>Cenas aéreas com drone</li>
-            <li>Sameday edit — resumo entregue no dia</li>
-            <li>Filme + teaser de 1min30</li>
-            <li>Entrega em pendrive especial e link digital</li>
-          </ul>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- DEPOIMENTOS -->
-  <section id="depoimentos" class="testimonials">
-    <div class="testimonials__header reveal">
-      <div class="testimonials__eyebrow amf-serif">DEPOIMENTOS</div>
-      <div class="testimonials__title amf-serif">Quem já viveu essa experiência</div>
-    </div>
-    <div class="testimonials__grid">
-      <div class="testimonials__item reveal">
-        <img src="assets/comentario1.png" alt="Print de depoimento" class="testimonials__img">
-      </div>
-      <div class="testimonials__item reveal">
-        <img src="assets/comentario2.png" alt="Print de depoimento" class="testimonials__img">
-      </div>
-      <div class="testimonials__item reveal">
-        <img src="assets/comentario3.png" alt="Print de depoimento" class="testimonials__img">
+      <div class="local__map reveal" style="--reveal-step: 1">
+        <iframe
+          title="Mapa de Araxá – MG"
+          src="https://www.google.com/maps?q=Anna+Jacintha+Eventos+Arax%C3%A1+MG&output=embed"
+          loading="lazy"
+        ></iframe>
       </div>
     </div>
   </section>
 
-  <!-- CONTATO / FOOTER -->
-  <footer id="contato" class="contact">
-    <div class="contact__bg">
-      <img src="assets/maosDadas.png" alt="Casal de mãos dadas" class="contact__bg-img">
+  <section class="dresscode">
+    <div class="dresscode__box reveal">
+      <span class="dresscode__label">Dress code</span>
+      <h3 class="dresscode__title">Esporte fino</h3>
+      <p>Elas: vestido de festa, midi ou longo. Eles: terno ou blazer com calça social. Cerimônia ao ar livre — prefira saltos confortáveis.</p>
+      <p class="dresscode__note">Por gentileza, reserve o branco e o verde oliva para a noiva e o cortejo.</p>
     </div>
-    <div class="contact__inner reveal">
-      <div class="contact__title amf-serif">Vamos contar a sua história?</div>
-      <div class="contact__text">Fale comigo e vamos planejar juntos o filme do seu casamento.</div>
-      <div class="contact__actions">
-        <a href="https://wa.me/5564993422296?text=Ol%C3%A1!%20Vim%20atrav%C3%A9s%20do%20seu%20site%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20o%20seu%20trabalho%20de%20filmmaker." target="_blank" rel="noopener" class="contact__cta contact__cta--whatsapp">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.13-2.9-7C17.18 3.03 14.7 2 12.04 2Zm0 18.12h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.55-3.7 8.21-8.25 8.21Zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.46-1.37-1.71-.14-.24-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.24-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.24-.86.85-.86 2.06 0 1.22.88 2.4 1 2.56.13.17 1.73 2.65 4.2 3.71.58.25 1.04.4 1.4.52.59.19 1.12.16 1.55.1.47-.07 1.47-.6 1.67-1.19.21-.58.21-1.08.15-1.19-.07-.11-.23-.17-.48-.29Z"/>
-          </svg>
-          <span>WHATSAPP</span>
-        </a>
-        <a href="https://instagram.com/mattfilmes" target="_blank" rel="noopener" class="contact__cta contact__cta--instagram">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-            <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-            <circle cx="12" cy="12" r="4.6"/>
-            <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
-          </svg>
-          <span>INSTAGRAM</span>
-        </a>
-        <a href="https://www.youtube.com/@mattfilmes" target="_blank" rel="noopener" class="contact__cta contact__cta--youtube">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-            <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.56a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.27 3.6-6.27 3.6Z"/>
-          </svg>
-          <span>YOUTUBE</span>
-        </a>
+  </section>
+
+  <section class="rsvp">
+    <div class="rsvp__grid">
+      <div class="rsvp__card reveal">
+        <span class="rsvp__label">Confirmação de presença</span>
+        <h2 class="rsvp__title">Você vem?</h2>
+        <p>Confirme sua presença até <strong>31 de outubro de 2026</strong>. É rápido: basta preencher seus dados no nosso site.</p>
+        <a href="https://noivos.casar.com/casamentosamyraegermano#/rsvp" target="_blank" rel="noopener" class="rsvp__cta">Confirmar presença</a>
+      </div>
+      <div class="rsvp__card reveal" style="--reveal-step: 1">
+        <span class="rsvp__label">Presentes</span>
+        <h2 class="rsvp__title">Um carinho a mais</h2>
+        <p>O presente maior é ter você com a gente. Se quiser nos abençoar com algo além, preparamos uma lista com muito carinho.</p>
+        <a href="https://noivos.casar.com/casamentosamyraegermano#/presentes" target="_blank" rel="noopener" class="rsvp__cta">Ver lista de presentes</a>
       </div>
     </div>
-    <div class="contact__footer">
-      <div class="contact__brand">
-        <img src="assets/logoFundoCinza.png" alt="Matt Filmes" class="contact__brand-img">
-      </div>
-      <div>© 2026 Matt Filmes — Filmes de casamento</div>
+  </section>
+
+  <section class="gallery">
+   <div class="gallery__inner">
+    <div class="gallery__head reveal">
+      <span class="gallery__label">Galeria</span>
+      <h2 class="gallery__title">Nossos momentos</h2>
     </div>
+    <div class="gallery__grid">
+      <div class="gallery__item reveal" style="--reveal-step: 0"><img src="assets/galeria/foto13.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 2"><img src="assets/galeria/foto5.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 1"><img src="assets/galeria/foto15.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 1"><img src="assets/galeria/foto11.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 2"><img src="assets/galeria/foto17.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 3"><img src="assets/galeria/foto16.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 0"><img src="assets/galeria/foto9.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 3"><img src="assets/galeria/foto18.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 0"><img src="assets/galeria/foto2.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 1"><img src="assets/galeria/foto12.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 2"><img src="assets/galeria/foto10.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 3"><img src="assets/galeria/foto7.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 0"><img src="assets/galeria/foto3.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 1"><img src="assets/galeria/foto6.jpg" alt="Samyra e Germano"></div>
+      <div class="gallery__item reveal" style="--reveal-step: 2"><img src="assets/galeria/foto14.jpg" alt="Samyra e Germano"></div>
+    </div>
+   </div>
+  </section>
+
+  <footer class="invite-footer">
+    <img src="assets/borda.png" alt="" class="invite-footer__corner invite-footer__corner--l">
+    <img src="assets/borda.png" alt="" class="invite-footer__corner invite-footer__corner--r">
+    <img src="assets/monograma-verde.png" alt="S &amp; G" class="invite-footer__monogram reveal">
+    <p class="invite-footer__names reveal" style="--reveal-step: 1">Samyra &amp; Germano</p>
+    <p class="invite-footer__date">22 . 11 . 2026 · Araxá – MG</p>
   </footer>
 
 </div>

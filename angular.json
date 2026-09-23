@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "matt-filmes": {
+    "samyra-germano": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -54,10 +54,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "matt-filmes:build:production"
+              "buildTarget": "samyra-germano:build:production"
             },
             "development": {
-              "buildTarget": "matt-filmes:build:development"
+              "buildTarget": "samyra-germano:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Full-resolution photo backups (web-optimized copies live in public/assets)
+/originals
+
 # Node
 /node_modules
 npm-debug.log
