@@ -893,7 +893,8 @@
 
   .hero__content > *,
   .hero__scroll,
-  .hero__corner {
+  .hero__corner,
+  .hero__corner-img {
     opacity: 1 !important;
   }
 
